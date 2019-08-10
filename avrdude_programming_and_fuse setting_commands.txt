@@ -1,0 +1,26 @@
+CHANGING FUSES AND UPLOADING CODE WITH BOOTLOADER MAY ONLY BE DONE WITH ISP PROGRAMMER!!!!
+CODE WITHOUT BOOTLOADER MAY BE UPLOADED USING SERIAL BOARD AND AVRDUDE.
+
+No bootloader avrdude programming and fuse settings
+===================================================
+
+Fuse Low Byte:      0xFF
+Fuse High Byte:     0xDF
+Extended Fuse Byte: 0x02
+Lock Bit Byte:      0xFF
+
+avrdude -v -c arduino -P com1 -b 115200 -p atmega328p -U lfuse:w:0xFF:m -U hfuse:w:0xDF:m -U efuse:w:0x02:m -U lock:w:0x3F:m
+avrdude -v -c arduino -P com1 -b 115200 -p atmega328p -U flash:w:toneplant328_v1_7.hex
+
+
+Optiboot bootloader avrdude programming and fuse settings
+(Optiboot boot loader starts program instantly on powerup, but manual reset starts bootloader)
+(Optiboot only generated when program compiled as "Arduino/Genuino Uno" instead of "Pro Mini")
+==============================================================================================
+Fuse Low Byte:      0xFF
+Fuse High Byte:     0xDA
+Extended Fuse Byte: 0x05
+Lock Bit Byte:      0x3F
+
+avrdude -v -p atmega328p -c arduino -P COM1 -b 115200 -e -Ulock:w:0x3F:m -Uefuse:w:0x05:m -Uhfuse:w:0xDA:m -Ulfuse:w:0xFF:m
+avrdude -v -c arduino -P com1 -b 115200 -p atmega328p -U flash:w:toneplant328_v1_7_with_bootloader.hex
