@@ -1,8 +1,29 @@
-CHANGING FUSES AND UPLOADING CODE WITH BOOTLOADER MAY ONLY BE DONE WITH ISP PROGRAMMER!!!!
-CODE WITHOUT BOOTLOADER MAY BE UPLOADED USING SERIAL BOARD AND AVRDUDE.
+HEX CODE UPDATES MAY BE PERFORMED WITH EITHER THE NORMAL ARDUINO USB/SERIAL CONNECTION OR VIA AN ISP PROGRAMMER.
+ONLY OPERATING CODE MAY BE CHANGED USING USB/SERIAL PROGRAMMING. THE FUSE SETTINGS AND BOOTLOADER AND OPERATING CODE MAY ALL BE CHANGED WITH ISP PROGRAMMING. THE ISP PROGRAMMER IS USUALLY ANOTHER ARDUINO RUNNING ISP CODE AND CONNECTED TO THE TARGET ARDUINO WITH 6 WIRES.
 
-No bootloader avrdude programming and fuse settings
-===================================================
+CHANGING FUSES AND UPLOADING CODE WITH THE APPENDED OPTIBOOT BOOTLOADER MAY ONLY BE DONE WITH AN ISP PROGRAMMER!!!!
+CODE WITHOUT THE BOOTLOADER MAY BE UPLOADED USING A SERIAL BOARD AND AVRDUDE.
+
+PROGRAMMING VIA AN ISP PROGRAMMER ALWAYS ERASES THE ENTIRE CHIP AND BOOTLOADER!!!!!
+IF YOU WISH TO RESTORE THE BOOTLOADER ON AN ARDUINO SO THAT SERIAL PORT PROGRAMMING MAY ALSO BE USED, AFTER ISP PROGRAMMING,
+YOU MUST LOAD THE CODE VERSION THAT CONTAINS THE BOOTLOADER!!!
+
+IF YOU SET THE FUSES AND BURN THE NON-BOOTLOADER CODE, YOU WILL ONLY BE ABLE TO PROGRAM THE ARDUINO IN THE FUTURE
+USING THE ISP. NORMAL SERIAL UPLOADING FROM THE ARDUINO IDE OR AVRDUDE WILL NO LONGER WORK UNTIL YOU RESTORE
+THE BOOTLOADER BY USING THE ISP AND PROGRAMMING THE BOOTLOADER FUSE SETTINGS (BELOW) AND CODE WITH THE APPENDED
+BOOTLOADER TO RESTORE THE ARDUINO.
+
+USE ONLY THE NORMAL USB/SERIAL PROGRAMMING OF THE ARDUINO UNLESS YOU KNOW WHAT YOU ARE DOING!
+
+"No bootloader" hex code avrdude programming and fuse settings - Using USB serial port or USB > serial board
+============================================================================================================
+No fuse settings needed or possible with USB/serial programming. 
+
+avrdude -v -c arduino -P com1 -b 115200 -p atmega328p -U flash:w:toneplant328_v1_7.hex
+
+"No bootloader" code avrdude programming and fuse settings - Using ISP Programmer
+=================================================================================
+Program the fuses first. The Arduino may not function normally after fuse settings until code is uploaded.
 
 Fuse Low Byte:      0xFF
 Fuse High Byte:     0xDF
@@ -15,8 +36,12 @@ avrdude -v -c arduino -P com1 -b 115200 -p atmega328p -U flash:w:toneplant328_v1
 
 Optiboot bootloader avrdude programming and fuse settings
 (Optiboot boot loader starts program instantly on powerup, but manual reset starts bootloader)
-(Optiboot only generated when program compiled as "Arduino/Genuino Uno" instead of "Pro Mini")
+(Optiboot only generated when program compiled in the IDE as "Arduino/Genuino Uno" instead of "Pro Mini")
+After replacing the bootloader with Optiboot, the "Arduino/Genuino Uno" board may need to be chosen in the IDE for
+successful programming.
 ==============================================================================================
+Program the fuses first. The Arduino may not function normally after fuse settings until code is uploaded.
+
 Fuse Low Byte:      0xFF
 Fuse High Byte:     0xDA
 Extended Fuse Byte: 0x05
