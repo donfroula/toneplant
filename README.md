@@ -1,13 +1,17 @@
 # toneplant
 This project allows an Atmega328p-based Arduino to be used as a "tone plant" for vintage telephone switches.
 
+This code will only run on Atmega328p-based Arduinos. With minor changes to the timer structure, it may also be run on 32u4-based boards. Future releases will include conditional compilation to support those Arduino types.
+
+Either the precompiled hex code may be used with avrdude to program an Arduino or bare ATMEGA328p chip, or the source code may be loaded into the Arduino IDE directly and compiled and loaded into the Arduino via conventional means.
+
 Numerous modern and vintage US and UK tones are provided. 
 
 Tone selection is performed using a four position DIP switch. 16 unique tones are supported.
 
 Cadence selection is performed using a 4 position DIP switch. 16 unique cadences are supported.
 
-Any cadence may be applied to any town.
+Any cadence may be applied to any tone.
 
 Tones are generated using four voice wavetable synthesis. The waveform, frequency and amplitude of each voice is performed internally
 and mixed to generate the final output tone.
